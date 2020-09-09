@@ -1,5 +1,5 @@
-import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,7 +8,6 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    UsersModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -19,6 +18,7 @@ import { UsersModule } from './users/users.module';
       autoLoadEntities: true,
       synchronize: !!process.env.DB_SYNC,
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserDTO } from 'src/users/user.dto';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { UsersModule } from '../src/users/users.module';
+import { TypeORMExceptionFilter } from '../src/filters/typeorm-exceptions.filter';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
@@ -14,6 +14,7 @@ describe('UsersController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalFilters(new TypeORMExceptionFilter());
     await app.init();
   });
 
@@ -32,7 +33,7 @@ describe('UsersController (e2e)', () => {
       .send(newUser)
       .expect(201);
     expect(newUserRequest.body.name).toBe(newUser.name);
-    expect(newUserRequest.body.id).toBe('' + currentSize);
+
     const postNewRequest = await server.get('/users').expect(200);
     const postNewSize = postNewRequest.body.length;
     expect(postNewSize).toBe(currentSize + 1);
