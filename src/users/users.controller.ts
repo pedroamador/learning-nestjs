@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { UserDTO } from './user.dto';
 import { UsersService } from './users.service';
+import { ValIdDogPipe } from './users.validation.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -31,7 +32,7 @@ export class UsersController {
 
   @Put(':id')
   async updateUser(
-    @Param('id') id: string,
+    @Param('id', ValIdDogPipe) id: string,
     @Body() user: UserDTO,
   ): Promise<UserDTO> {
     return await this.usersService.updateUser(id, user);

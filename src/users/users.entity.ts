@@ -10,9 +10,15 @@ export class UserEntity {
   })
   readonly name: string;
 
-  constructor(userId: string, name: string) {
+  @Column({
+    unique: false,
+  })
+  readonly lastName: string;
+
+  constructor(userId: string, name: string, lastName: string) {
     this.userId = userId;
     this.name = name;
-    console.log('Creo User Entity para ' + this.name);
+    this.lastName = lastName;
+    console.log('Creo User Entity para ' + this.name + ' ' + this.lastName);
   }
 }
