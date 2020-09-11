@@ -6,22 +6,30 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { Auth } from 'src/auth/auth.decorator';
 import { UserDTO } from './user.dto';
 import { UsersService } from './users.service';
-import { ValIdDogPipe } from './users.validation.pipe';
+import { UserIdValid } from './users.validation.pipe';
 
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   async getAllUsers(): Promise<UserDTO[]> {
     return await this.usersService.getAllUsers();
   }
 
-  @Get(':id')
-  async getUserById(@Param('id') id: string): Promise<UserDTO> {
+  @Get('/me')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  async getUserById(@Auth() { id }: UserDTO): Promise<UserDTO> {
     return await this.usersService.getUserById(id);
   }
 
@@ -31,14 +39,18 @@ export class UsersController {
   }
 
   @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   async updateUser(
-    @Param('id', ValIdDogPipe) id: string,
+    @Param('id', UserIdValid) id: string,
     @Body() user: UserDTO,
   ): Promise<UserDTO> {
     return await this.usersService.updateUser(id, user);
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   async deleteUser(@Param('id') id: string): Promise<void> {
     return await this.usersService.deleteUser(id);
   }

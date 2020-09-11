@@ -3,10 +3,20 @@ import { UserEntity } from './users.entity';
 
 export class UserMapper {
   dtoToEntity(userDTO: UserDTO): UserEntity {
-    return new UserEntity(userDTO.id, userDTO.name, userDTO.lastName);
+    return new UserEntity(
+      userDTO.id,
+      userDTO.name,
+      userDTO.lastName,
+      userDTO.password,
+    );
   }
 
   entityToDto(userEntity: UserEntity): UserDTO {
-    return new UserDTO(userEntity.userId, userEntity.name, userEntity.lastName);
+    return new UserDTO(
+      userEntity.userId,
+      userEntity.name,
+      userEntity.lastName,
+      userEntity.password,
+    );
   }
 }

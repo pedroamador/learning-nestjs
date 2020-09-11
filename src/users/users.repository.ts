@@ -21,6 +21,10 @@ export class UsersRepository {
     return this.usersRepository.findOne(id);
   }
 
+  getUserByName(name: string): Promise<UserEntity> {
+    return this.usersRepository.findOne({ name });
+  }
+
   newUser(userDTO: UserDTO): Promise<UserEntity> {
     const newUser = this.mapper.dtoToEntity(userDTO);
     return this.usersRepository.save(newUser);
@@ -31,6 +35,7 @@ export class UsersRepository {
       id,
       userDTO.name,
       userDTO.lastName,
+      userDTO.password,
     );
     const updateUser = this.mapper.dtoToEntity(updateUserDTO);
     await this.usersRepository.update(id, updateUser);

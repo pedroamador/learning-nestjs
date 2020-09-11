@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import { UserEntity } from './users.entity';
 
 @Injectable()
-export class ValIdDogPipe implements PipeTransform {
+export class UserIdValid implements PipeTransform {
   constructor(
     @InjectRepository(UserEntity)
     public dogsRepository: Repository<UserEntity>,

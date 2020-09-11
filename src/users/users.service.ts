@@ -21,6 +21,10 @@ export class UsersService {
     return this.mapper.entityToDto(user);
   }
 
+  async getUserByName(name: string): Promise<UserEntity> {
+    return await this.usersRepository.getUserByName(name);
+  }
+
   async newUser(userDTO: UserDTO): Promise<UserDTO> {
     const newUser: UserEntity = await this.usersRepository.newUser(userDTO);
     return this.mapper.entityToDto(newUser);
